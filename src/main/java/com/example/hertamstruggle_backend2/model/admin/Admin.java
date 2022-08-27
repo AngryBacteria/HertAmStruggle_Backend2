@@ -85,6 +85,11 @@ public class Admin {
         return Optional.ofNullable(drugs.get(id));
     }
 
+    public Optional<Doctor> getDoctorByHin(String hinAddress){
+        //doctors.values().stream().forEach();
+        return null;
+    }
+
     public void init() {
 
 

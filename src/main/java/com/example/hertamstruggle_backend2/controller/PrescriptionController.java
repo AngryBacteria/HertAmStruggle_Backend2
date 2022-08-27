@@ -24,7 +24,7 @@ public class PrescriptionController {
             @ApiResponse(responseCode = "404", description = "prescription not found",
                     content = @Content)})
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "id/{id}")
     public String prescription(@Parameter(description = "Id of prescription to get") @PathVariable Integer id) {
 
         if (HertAmStruggleBackend2Application.admin.getPrescription(id).isPresent()){
