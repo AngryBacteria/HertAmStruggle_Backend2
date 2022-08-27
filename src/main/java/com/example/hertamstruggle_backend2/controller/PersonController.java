@@ -45,7 +45,6 @@ public class PersonController {
     @GetMapping(path = "doctor/all")
     public String getAllPrescriptions() {
         List<Doctor> doctors = HertAmStruggleBackend2Application.admin.getDoctors();
-        doctors.forEach(System.out::println);
         return Admin.gson.toJson(doctors);
     }
 

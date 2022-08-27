@@ -130,6 +130,10 @@ public class Admin {
         return this.doctors.values().stream().toList();
     }
 
+    public List<Drug> getDrugs(){
+        return this.drugs.values().stream().toList();
+    }
+
     public void init() {
 
 

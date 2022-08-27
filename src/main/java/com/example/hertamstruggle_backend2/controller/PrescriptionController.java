@@ -98,7 +98,7 @@ public class PrescriptionController {
         try {
             HertAmStruggleBackend2Application.admin.usePrescription(prescription);
         } catch (IllegalStateException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED, e.getMessage());
         }
     }
 

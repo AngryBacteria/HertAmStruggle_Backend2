@@ -2,6 +2,8 @@ package com.example.hertamstruggle_backend2.controller;
 
 
 import com.example.hertamstruggle_backend2.HertAmStruggleBackend2Application;
+import com.example.hertamstruggle_backend2.model.admin.Admin;
+import com.example.hertamstruggle_backend2.model.person.Doctor;
 import com.example.hertamstruggle_backend2.model.prescription.Drug;
 import com.example.hertamstruggle_backend2.model.prescription.Prescription;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 
 @RestController
@@ -47,10 +51,9 @@ public class DrugController {
         }
     }
 
-
-    @PostMapping(consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void insert(@RequestBody Drug newDrug) {
-        System.out.println(newDrug);
+    @GetMapping(path = "doctor/all")
+    public String getAllDrugs() {
+        List<Drug> drugs = HertAmStruggleBackend2Application.admin.getDrugs();
+        return Admin.gson.toJson(drugs);
     }
 }
