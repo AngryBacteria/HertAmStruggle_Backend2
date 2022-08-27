@@ -62,9 +62,12 @@ public class PrescriptionController {
         LocalDate expirationDate = LocalDate.parse(prescription.get("prescriptionDate").getAsString());
 
 
-        if (HertAmStruggleBackend2Application.admin.getDoctorByZsr(zsrCode).isEmpty() ||
-                HertAmStruggleBackend2Application.admin.getPatientByAHV(ahv).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objects couldn't be found");
+        if (HertAmStruggleBackend2Application.admin.getDoctorByZsr(zsrCode).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor couldn't be found");
+        }
+
+        if (HertAmStruggleBackend2Application.admin.getPatientByAHV(ahv).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient couldn't be found");
         }
 
         Doctor doctor = HertAmStruggleBackend2Application.admin.getDoctorByZsr(zsrCode).get();
@@ -76,12 +79,16 @@ public class PrescriptionController {
 
             String atcCode = jsonElement.getAsJsonObject().get("atcCode").getAsString();
             if (HertAmStruggleBackend2Application.admin.getDrugByATC(atcCode).isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objects couldn't be found");
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Drugs couldn't be found");
             }
             Drug tmpDrug = HertAmStruggleBackend2Application.admin.getDrugByATC(atcCode).get();
             String text = jsonElement.getAsJsonObject().get("schedule").getAsString();
             prescriptiondrugs.add(new PrescriptionDrug(tmpDrug, text));
         }
+
+        System.out.println(patient);
+        System.out.println(doctor);
+        System.out.println(prescriptionDrugsArray);
 
         HertAmStruggleBackend2Application.admin.createPrescription(numberOfUses,
                 doctor, patient, prescriptiondrugs, prescriptionDate, expirationDate);
