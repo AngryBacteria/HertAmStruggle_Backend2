@@ -134,7 +134,7 @@ public class Admin {
     }
 
 
-    private <T> void addObjectToHashMap(T object) {
+    public <T> void addObjectToHashMap(T object) {
         if (object instanceof Doctor) {
             addDoctor((Doctor) object);
         }
@@ -165,9 +165,7 @@ public class Admin {
     }
 
     private void addPrescription(Prescription prescription) {
-        if (prescriptions.containsKey(prescription.getId())) {
-            throw new RuntimeException("This id is already used.");
-        }
+        checkIfObjectExists(prescriptions, prescription.getId());
         prescriptions.put(prescription.getId(), prescription);
     }
 }

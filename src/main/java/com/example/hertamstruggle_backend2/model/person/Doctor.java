@@ -29,4 +29,16 @@ public class Doctor {
         return address;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
 }
