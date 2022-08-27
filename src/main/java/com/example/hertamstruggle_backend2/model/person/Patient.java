@@ -3,14 +3,17 @@ package com.example.hertamstruggle_backend2.model.person;
 
 import java.time.LocalDate;
 
-public class Patient extends Person {
+@Entity
+public class Patient {
 
     // TODO add other instance variables
     private LocalDate birthDate;
     private String AHV;
 
+
     public Patient(String firstName, String lastName, LocalDate birthDate, String AHV) {
-        super(firstName, lastName);
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.birthDate = birthDate;
         this.AHV = AHV;
     }

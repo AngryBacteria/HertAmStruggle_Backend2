@@ -5,6 +5,10 @@ import com.example.hertamstruggle_backend2.model.admin.Admin;
 import com.example.hertamstruggle_backend2.model.person.Doctor;
 import com.example.hertamstruggle_backend2.model.person.Patient;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Collections;
@@ -13,8 +17,8 @@ import java.util.UUID;
 
 public class Prescription {
 
-    private static long idCount = 0;
 
+    @Id
     private long id;
     private long numberOfSupplies;
     private Doctor doctor;
@@ -36,6 +40,10 @@ public class Prescription {
         this.expirationDate = expirationDate;
         this.interval = Duration.ofDays(30);
         this.code = generateCode();
+    }
+
+    public Prescription() {
+
     }
 
     private String generateCode() {
@@ -65,9 +73,9 @@ public class Prescription {
         return patient;
     }
 
-    public List<PrescriptionDrug> getDrugs() {
-        return Collections.unmodifiableList(drugs);
-    }
+    //public List<PrescriptionDrug> getDrugs() {
+    //    return Collections.unmodifiableList(drugs);
+    //}
 
     public LocalDate getPrescriptionDate() {
         return prescriptionDate;
