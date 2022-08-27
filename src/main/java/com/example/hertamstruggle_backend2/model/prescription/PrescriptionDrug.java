@@ -1,32 +1,31 @@
 package com.example.hertamstruggle_backend2.model.prescription;
 
 import com.example.hertamstruggle_backend2.model.admin.Admin;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@Entity
-@IdClass(DrugPrescriptionID.class)
+
 public class PrescriptionDrug {
 
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "drug_id", referencedColumnName = "id")
+    private static final AtomicInteger counter = new AtomicInteger();
+
+    private int id;
     private Drug drug;
-
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "prescription_id", referencedColumnName = "id")
     private Prescription prescription;
-
     private String prescriptionText;
 
     public PrescriptionDrug(Drug drug, String prescriptionText) {
         this.drug = drug;
         this.prescriptionText = prescriptionText;
+        this.id = counter.getAndIncrement();
     }
 
     public PrescriptionDrug() {
 
+    }
+
+
+    public String toJson() {
+        return Admin.gson.toJson(this);
     }
 }

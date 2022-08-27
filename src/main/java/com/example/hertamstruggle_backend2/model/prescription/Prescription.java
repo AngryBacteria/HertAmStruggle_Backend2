@@ -1,52 +1,39 @@
 package com.example.hertamstruggle_backend2.model.prescription;
 
 
+import com.example.hertamstruggle_backend2.model.admin.Admin;
 import com.example.hertamstruggle_backend2.model.person.Doctor;
 import com.example.hertamstruggle_backend2.model.person.Patient;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
-import javax.persistence.*;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@Entity
 public class Prescription {
 
+    private static final AtomicInteger counter = new AtomicInteger();
 
-    @Id
+
     private int id;
-
-    private int numbeOfUses;
-
-    @ManyToOne
-    @JoinColumn(name = "Doctor_id")
-    @JsonBackReference
+    private int numberOfUses;
     private Doctor doctor;
-
-    @ManyToOne
-    @JoinColumn(name = "Patient_id")
-    @JsonBackReference
     private Patient patient;
-
-
-    @OneToMany(mappedBy = "prescription")
     private List<PrescriptionDrug> drugs;
 
     private LocalDate prescriptionDate, expirationDate, lastUse;
     private String code;
 
-    public Prescription(int numbeOfUses, Doctor doctor, Patient patient, List<PrescriptionDrug> drugs, LocalDate prescriptionDate, LocalDate expirationDate) {
-        this.numbeOfUses = numbeOfUses;
+    public Prescription(int numberOfUses, Doctor doctor, Patient patient, List<PrescriptionDrug> drugs, LocalDate prescriptionDate, LocalDate expirationDate) {
+        this.numberOfUses = numberOfUses;
         this.doctor = doctor;
         this.patient = patient;
         this.drugs = drugs;
         this.prescriptionDate = prescriptionDate;
         this.expirationDate = expirationDate;
         this.code = generateCode();
+        this.id = counter.getAndIncrement();
     }
 
     private String generateCode() {
@@ -55,7 +42,7 @@ public class Prescription {
 
     public void usePrescription() {
 
-        this.numbeOfUses = this.numbeOfUses - 1;
+        this.numberOfUses = this.numberOfUses - 1;
         this.lastUse = LocalDate.now();
 
     }
@@ -64,8 +51,8 @@ public class Prescription {
         return id;
     }
 
-    public int getNumbeOfUses() {
-        return numbeOfUses;
+    public int getNumberOfUses() {
+        return numberOfUses;
     }
 
     public Doctor getDoctor() {
@@ -100,7 +87,7 @@ public class Prescription {
     public String toString() {
         final StringBuffer sb = new StringBuffer("Prescription{");
         sb.append("id=").append(id);
-        sb.append(", numberOfSupplies=").append(numbeOfUses);
+        sb.append(", numberOfSupplies=").append(numberOfUses);
         sb.append(", doctor=").append(doctor);
         sb.append(", patient=").append(patient);
         sb.append(", drugs=").append(drugs);
@@ -110,5 +97,9 @@ public class Prescription {
         sb.append(", lastTimeUsed=").append(lastUse);
         sb.append('}');
         return sb.toString();
+    }
+
+    public String toJson() {
+        return Admin.gson.toJson(this);
     }
 }

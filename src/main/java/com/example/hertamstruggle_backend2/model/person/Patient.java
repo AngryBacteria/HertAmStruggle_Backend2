@@ -1,17 +1,17 @@
 package com.example.hertamstruggle_backend2.model.person;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import com.example.hertamstruggle_backend2.model.admin.Admin;
 
-@Entity
+import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicInteger;
+
+
 public class Patient {
 
-    // TODO add other instance variables
-    @Id
-    private int id;
+    private static final AtomicInteger counter = new AtomicInteger();
 
+    private int id;
     private String firstName;
     private String lastName;
     private LocalDate birthDate;
@@ -49,5 +49,9 @@ public class Patient {
 
     public int getId() {
         return id;
+    }
+
+    public String toJson() {
+        return Admin.gson.toJson(this);
     }
 }

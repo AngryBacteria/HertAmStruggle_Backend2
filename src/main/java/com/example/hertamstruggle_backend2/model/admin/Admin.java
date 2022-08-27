@@ -23,8 +23,9 @@ public class Admin {
     public Admin() {
         this.doctors = new HashMap<>();
         this.patients = new HashMap<>();
-        this.drugs = new HashMap<Integer, Drug>();
+        this.drugs = new HashMap<>();
         this.prescriptions = new HashMap<>();
+        init();
     }
 
     public static void main(String[] args) {
@@ -155,7 +156,7 @@ public class Admin {
     }
 
     private void addDrug(Drug drug) {
-        checkIfObjectExists(this.drugs, drug.getId());
+        checkIfObjectExists(drugs, drug.getId());
         drugs.put(drug.getId(), drug);
     }
 

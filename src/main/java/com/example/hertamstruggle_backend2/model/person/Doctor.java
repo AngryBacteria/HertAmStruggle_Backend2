@@ -1,16 +1,13 @@
 package com.example.hertamstruggle_backend2.model.person;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@Entity
 public class Doctor {
 
-    @Id
+    private final static AtomicInteger counter = new AtomicInteger();
+
     private int id;
-
     private String signature;
-
     private String address;
     protected String firstName;
     protected String lastName;
