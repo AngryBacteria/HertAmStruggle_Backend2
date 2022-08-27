@@ -17,9 +17,9 @@ public class Drug {
 
     private String permitHolder;
 
-    private String ATCcode;
+    private String ATCCode;
 
-    private String category;
+    private String Category;
 
     @OneToMany(mappedBy = "drug")
     private List<PrescriptionDrug> prescriptions;

@@ -4,6 +4,7 @@ package com.example.hertamstruggle_backend2.model.prescription;
 import com.example.hertamstruggle_backend2.model.person.Doctor;
 import com.example.hertamstruggle_backend2.model.person.Patient;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 import javax.persistence.*;
 import java.time.Duration;
@@ -37,8 +38,8 @@ public class Prescription {
 
     private LocalDate prescriptionDate, expirationDate, lastUse;
     private String code;
-    transient private Duration interval;
-    private LocalDate lastTimeUsed;
+
+    //transient private Duration interval;
 
     public Prescription(int numbeOfUses, Doctor doctor, Patient patient, List<PrescriptionDrug> drugs, LocalDate prescriptionDate, LocalDate expirationDate) {
         this.numbeOfUses = numbeOfUses;
@@ -47,7 +48,7 @@ public class Prescription {
         this.drugs = drugs;
         this.prescriptionDate = prescriptionDate;
         this.expirationDate = expirationDate;
-        this.interval = Duration.ofDays(30);
+        // this.interval = Duration.ofDays(30);
         this.code = generateCode();
     }
 
@@ -98,12 +99,15 @@ public class Prescription {
         return code;
     }
 
+    /*
     public Duration getInterval() {
         return interval;
     }
 
+     */
+
     public LocalDate getLastTimeUsed() {
-        return lastTimeUsed;
+        return lastUse;
     }
 
     @Override
@@ -117,8 +121,8 @@ public class Prescription {
         sb.append(", prescriptionDate=").append(prescriptionDate);
         sb.append(", expirationDate=").append(expirationDate);
         sb.append(", code='").append(code).append('\'');
-        sb.append(", interval=").append(interval.toString());
-        sb.append(", lastTimeUsed=").append(lastTimeUsed);
+        // sb.append(", interval=").append(interval.toString());
+        sb.append(", lastTimeUsed=").append(lastUse);
         sb.append('}');
         return sb.toString();
     }
