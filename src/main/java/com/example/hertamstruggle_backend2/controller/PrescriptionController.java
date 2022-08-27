@@ -5,6 +5,7 @@ import com.example.hertamstruggle_backend2.model.admin.Admin;
 import com.example.hertamstruggle_backend2.model.person.Doctor;
 import com.example.hertamstruggle_backend2.model.person.Patient;
 import com.example.hertamstruggle_backend2.model.prescription.Drug;
+import com.example.hertamstruggle_backend2.model.prescription.Prescription;
 import com.example.hertamstruggle_backend2.model.prescription.PrescriptionDrug;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -63,7 +64,11 @@ public class PrescriptionController {
         LocalDate expirationDate = LocalDate.parse(prescription.get("prescriptionDate").getAsString());
 
 
-        //Todo empty checks
+        if (HertAmStruggleBackend2Application.admin.getDoctorByZsr(zsrCode).isEmpty() ||
+                HertAmStruggleBackend2Application.admin.getPatientByAHV(ahv).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objects couldn't be found");
+        }
+
         Doctor doctor = HertAmStruggleBackend2Application.admin.getDoctorByZsr(zsrCode).get();
         Patient patient = HertAmStruggleBackend2Application.admin.getPatientByAHV(ahv).get();
 
@@ -72,16 +77,31 @@ public class PrescriptionController {
         for (JsonElement jsonElement : prescriptionDrugsArray){
 
             String atcCode = jsonElement.getAsJsonObject().get("atcCode").getAsString();
+            if (HertAmStruggleBackend2Application.admin.getDrugByATC(atcCode).isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Objects couldn't be found");
+            }
             Drug tmpDrug = HertAmStruggleBackend2Application.admin.getDrugByATC(atcCode).get();
             String text = jsonElement.getAsJsonObject().get("schedule").getAsString();
             prescriptiondrugs.add(new PrescriptionDrug(tmpDrug, text));
-
         }
 
         HertAmStruggleBackend2Application.admin.createPrescription(numberOfUses,
                 doctor, patient, prescriptiondrugs, prescriptionDate, expirationDate);
+    }
 
-        System.out.println(HertAmStruggleBackend2Application.admin.getPrescription(3).get().toJson());
+    @PutMapping(path = "/use/{id}")
+    public void usePrescription(@Parameter(description = "Id of prescription to use") @PathVariable Integer id) {
 
+        if (HertAmStruggleBackend2Application.admin.getPrescription(id).isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prescription couldn't be found");
+        }
+        Prescription prescription = HertAmStruggleBackend2Application.admin.getPrescription(id).get();
+        System.out.println(prescription);
+
+        try {
+            HertAmStruggleBackend2Application.admin.usePrescription(prescription);
+        } catch (IllegalStateException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
     }
 }
