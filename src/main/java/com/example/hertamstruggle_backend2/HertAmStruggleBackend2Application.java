@@ -18,7 +18,7 @@ public class HertAmStruggleBackend2Application {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/*").allowedOrigins("").allowedMethods("GET", "POST", "PUT", "DELETE");
+                registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };
     }
@@ -27,5 +27,4 @@ public class HertAmStruggleBackend2Application {
         admin = new Admin();
         SpringApplication.run(HertAmStruggleBackend2Application.class, args);
     }
-
 }
