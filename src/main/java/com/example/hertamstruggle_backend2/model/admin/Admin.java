@@ -15,16 +15,17 @@ import java.util.Map;
 
 public class Admin {
 
-    private Map<Long, Doctor> doctors;
-    private Map<Long, Patient> patients;
-    private Map<Long, Drug> drugs;
-    private Map<Long, Prescription> prescriptions;
+    /*
+    private Map<int, Doctor> doctors;
+    private Map<int, Patient> patients;
+    private Map<Integer, Drug> drugs;
+    private Map<int, Prescription> prescriptions;
     public static Gson gson = CustomizedGson.getInstance();
 
     public Admin() {
         this.doctors = new HashMap<>();
         this.patients = new HashMap<>();
-        this.drugs = new HashMap<>();
+        this.drugs = new HashMap<Integer, Drug>();
         this.prescriptions = new HashMap<>();
     }
 
@@ -38,7 +39,7 @@ public class Admin {
 
     }
 
-    public Prescription createPrescription(long numberOfSupplies, Doctor doctor, Patient patient, List<PrescriptionDrug> prescriptionDrugs, LocalDate prescriptionDate, LocalDate expirationDate) {
+    public Prescription createPrescription(int numberOfSupplies, Doctor doctor, Patient patient, List<PrescriptionDrug> prescriptionDrugs, LocalDate prescriptionDate, LocalDate expirationDate) {
         Prescription prescription = new Prescription(numberOfSupplies, doctor, patient, prescriptionDrugs, prescriptionDate, expirationDate);
         this.addObjectToHashMap(prescription);
         return prescription;
@@ -57,7 +58,7 @@ public class Admin {
     }
 
 
-    private <T> void checkIfObjectExists(Map<Long, T> hashMap, long id) {
+    private <T> void checkIfObjectExists(Map<int, T> hashMap, int id) {
         if (hashMap.containsKey(id)) {
             throw new RuntimeException("This id is already used.");
         }
@@ -86,7 +87,7 @@ public class Admin {
 
 
     //Todo maybe return optional?
-    public Prescription getPrescription(Long id) {
+    public Prescription getPrescription(int id) {
         return prescriptions.get(id);
     }
 
@@ -168,4 +169,6 @@ public class Admin {
         checkIfObjectExists(prescriptions, prescription.getId());
         prescriptions.put(prescription.getId(), prescription);
     }
+
+     */
 }
