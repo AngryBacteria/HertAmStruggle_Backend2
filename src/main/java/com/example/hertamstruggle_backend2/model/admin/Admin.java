@@ -172,6 +172,7 @@ public class Admin {
         this.addObjectToHashMap(prescription1);
         this.addObjectToHashMap(prescription2);
         this.addObjectToHashMap(prescriptionExpired);
+        this.addObjectToHashMap(prescriptionOnlyOneUse);
 
     }
 

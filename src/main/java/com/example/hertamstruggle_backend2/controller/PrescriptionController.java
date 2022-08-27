@@ -87,7 +87,7 @@ public class PrescriptionController {
                 doctor, patient, prescriptiondrugs, prescriptionDate, expirationDate);
     }
 
-    @PutMapping(path = "/use/{id}")
+    @GetMapping(path = "/use/{id}")
     public void usePrescription(@Parameter(description = "Id of prescription to use") @PathVariable Integer id) {
 
         if (HertAmStruggleBackend2Application.admin.getPrescription(id).isEmpty()){
