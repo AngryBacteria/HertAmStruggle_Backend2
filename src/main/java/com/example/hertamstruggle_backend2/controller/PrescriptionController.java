@@ -42,7 +42,5 @@ public class PrescriptionController {
 
         System.out.println(newPrescription);
 
-
     }
-
 }
