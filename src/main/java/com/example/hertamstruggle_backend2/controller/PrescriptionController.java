@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,37 +51,37 @@ public class PrescriptionController {
     @ResponseStatus(HttpStatus.CREATED)
     public void insert(@RequestBody String newPrescription) {
 
-        System.out.println(newPrescription);
+        //Json Objects
         Gson gson = Admin.gson;
-
         JsonObject prescription = gson.fromJson(newPrescription, JsonObject.class);
-        System.out.println(prescription.get("zsrCode"));
+
+        //Fields
+        int numberOfUses = prescription.get("numberOfUses").getAsInt();
         int zsrCode = prescription.get("zsrCode").getAsInt();
         String ahv = prescription.get("AHV").getAsString();
+        LocalDate prescriptionDate = LocalDate.parse(prescription.get("prescriptionDate").getAsString());
+        LocalDate expirationDate = LocalDate.parse(prescription.get("prescriptionDate").getAsString());
+
 
         //Todo empty checks
         Doctor doctor = HertAmStruggleBackend2Application.admin.getDoctorByZsr(zsrCode).get();
-        System.out.println(doctor);
-
         Patient patient = HertAmStruggleBackend2Application.admin.getPatientByAHV(ahv).get();
-        System.out.println(patient);
 
         JsonArray prescriptionDrugsArray = prescription.getAsJsonArray("drugPrescriptions");
-        System.out.println(prescriptionDrugsArray);
-
-
         List<PrescriptionDrug> prescriptiondrugs = new ArrayList<>();
         for (JsonElement jsonElement : prescriptionDrugsArray){
-            System.out.println(jsonElement.getAsJsonObject().get("atcCode"));
+
+            String atcCode = jsonElement.getAsJsonObject().get("atcCode").getAsString();
+            Drug tmpDrug = HertAmStruggleBackend2Application.admin.getDrugByATC(atcCode).get();
+            String text = jsonElement.getAsJsonObject().get("schedule").getAsString();
+            prescriptiondrugs.add(new PrescriptionDrug(tmpDrug, text));
+
         }
 
+        HertAmStruggleBackend2Application.admin.createPrescription(numberOfUses,
+                doctor, patient, prescriptiondrugs, prescriptionDate, expirationDate);
 
-
-        //prescriptiondrugs.add(HertAmStruggleBackend2Application.admin.getDrugByATC());
-        //prescriptiondrugs.add(HertAmStruggleBackend2Application.admin.getDrugByATC());
-
-        //HertAmStruggleBackend2Application.admin.createPrescription(newPrescription.getNumberOfUses(),
-        //        doctor, patient, prescriptiondrugs, newPrescription.getPrescriptionDate(), newPrescription.getExpirationDate());
+        System.out.println(HertAmStruggleBackend2Application.admin.getPrescription(3).get().toJson());
 
     }
 }
