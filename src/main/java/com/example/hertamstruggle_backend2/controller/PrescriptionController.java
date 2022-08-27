@@ -7,7 +7,6 @@ import com.example.hertamstruggle_backend2.model.person.Patient;
 import com.example.hertamstruggle_backend2.model.prescription.Drug;
 import com.example.hertamstruggle_backend2.model.prescription.Prescription;
 import com.example.hertamstruggle_backend2.model.prescription.PrescriptionDrug;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -53,8 +52,7 @@ public class PrescriptionController {
     public void insert(@RequestBody String newPrescription) {
 
         //Json Objects
-        Gson gson = Admin.gson;
-        JsonObject prescription = gson.fromJson(newPrescription, JsonObject.class);
+        JsonObject prescription = Admin.gson.fromJson(newPrescription, JsonObject.class);
 
         //Fields
         int numberOfUses = prescription.get("numberOfUses").getAsInt();
@@ -96,7 +94,6 @@ public class PrescriptionController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prescription couldn't be found");
         }
         Prescription prescription = HertAmStruggleBackend2Application.admin.getPrescription(id).get();
-        System.out.println(prescription);
 
         try {
             HertAmStruggleBackend2Application.admin.usePrescription(prescription);
@@ -104,4 +101,11 @@ public class PrescriptionController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
-}
+
+    @GetMapping(path = "all")
+    public String getAllPrescriptions() {
+        List<Prescription> prescriptions = HertAmStruggleBackend2Application.admin.getPrescriptions();
+        prescriptions.forEach(System.out::println);
+        return Admin.gson.toJson(prescriptions);
+    }
+    }

@@ -122,6 +122,14 @@ public class Admin {
         return Optional.empty();
     }
 
+    public List<Prescription> getPrescriptions(){
+        return this.prescriptions.values().stream().toList();
+    }
+
+    public List<Doctor> getDoctors(){
+        return this.doctors.values().stream().toList();
+    }
+
     public void init() {
 
 
@@ -158,6 +166,7 @@ public class Admin {
         Prescription prescription1 = new Prescription(10, doctor1, patient1, presDrugList1, LocalDate.now(), LocalDate.now().plusMonths(3));
         Prescription prescription2 = new Prescription(6, doctor2, patient2, presDrugList2, LocalDate.now(), LocalDate.now().plusMonths(6));
         Prescription prescriptionExpired = new Prescription(6, doctor2, patient2, presDrugList2, LocalDate.now(), LocalDate.now().minusMonths(6));
+        Prescription prescriptionOnlyOneUse = new Prescription(1, doctor2, patient2, presDrugList2, LocalDate.now(), LocalDate.now().minusMonths(6));
 
 
         this.addObjectToHashMap(prescription1);
