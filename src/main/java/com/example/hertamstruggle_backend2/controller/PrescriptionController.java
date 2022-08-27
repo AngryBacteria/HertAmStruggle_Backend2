@@ -1,7 +1,9 @@
 package com.example.hertamstruggle_backend2.controller;
 
 import com.example.hertamstruggle_backend2.model.admin.Admin;
+import com.example.hertamstruggle_backend2.model.prescription.Drug;
 import com.example.hertamstruggle_backend2.model.prescription.Prescription;
+import com.example.hertamstruggle_backend2.repositories.DrugRepository;
 import com.example.hertamstruggle_backend2.repositories.PrescriptionRepository;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class PrescriptionController {
 
     @Autowired
     private PrescriptionRepository prescriptionRepository;
+    @Autowired
+    private DrugRepository drugRepository;
 
     @GetMapping(path = "{id}")
     public Optional<Prescription> findById(@Parameter(description = "Id of prescription to get") @PathVariable Integer id) {
@@ -31,5 +35,10 @@ public class PrescriptionController {
         catch (NoSuchElementException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prescription could not be found");
         }
+    }
+
+    @GetMapping("/drug")
+    public Optional<Drug> one() {
+        return drugRepository.findById(1);
     }
 }

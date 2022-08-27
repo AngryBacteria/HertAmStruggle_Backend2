@@ -10,7 +10,7 @@ public class Patient {
 
     // TODO add other instance variables
     @Id
-    private long id;
+    private int id;
 
     private String firstName;
     private String lastName;
@@ -45,7 +45,7 @@ public class Patient {
         return lastName;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 }

@@ -1,19 +1,19 @@
 package com.example.hertamstruggle_backend2.model.prescription;
 
-import com.example.hertamstruggle_backend2.model.admin.Admin;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Drug {
 
     @Id
-    private long id;
+    private int id;
 
-    private long approvalNumber;
+    private int approvalNumber;
 
-    private String drugName;
+    private String name;
 
     private String permitHolder;
 
@@ -21,44 +21,43 @@ public class Drug {
 
     private String category;
 
-    public Drug(long approvalNumber, String drugName, String permitHolder, String ATCcode, String category) {
+    @OneToMany(mappedBy = "drug")
+    private List<PrescriptionDrug> prescriptions;
+
+    public Drug(int approvalNumber, String name, String permitHolder, String ATCCode, String category) {
         this.approvalNumber = approvalNumber;
-        this.drugName = drugName;
+        this.name = name;
         this.permitHolder = permitHolder;
-        this.ATCcode = ATCcode;
-        this.category = category;
+        this.ATCCode = ATCCode;
+        this.Category = category;
     }
 
     public Drug() {
 
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public long getApprovalNumber() {
+    public int getApprovalNumber() {
         return approvalNumber;
     }
 
-    public String getDrugName() {
-        return drugName;
+    public String getName() {
+        return name;
     }
 
     public String getPermitHolder() {
         return permitHolder;
     }
 
-    public String getATCcode() {
-        return ATCcode;
+    public String getATCCode() {
+        return ATCCode;
     }
 
     public String getCategory() {
-        return category;
-    }
-
-    public String toJSON() {
-        return Admin.gson.toJson(this);
+        return Category;
     }
 
 

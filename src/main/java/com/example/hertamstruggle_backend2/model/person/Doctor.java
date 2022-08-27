@@ -7,7 +7,7 @@ import javax.persistence.Id;
 public class Doctor {
 
     @Id
-    private long id;
+    private int id;
 
     private String signature;
 
@@ -41,7 +41,7 @@ public class Doctor {
         return lastName;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

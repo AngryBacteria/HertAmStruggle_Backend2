@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AdminTest {
 
-
+    /*
     private Admin admin;
 
 
@@ -57,4 +57,6 @@ public class AdminTest {
                 () -> assertThrows(IllegalStateException.class, () -> admin.usePrescription(admin.getPrescription(2L))));
 
     }
+
+     */
 }

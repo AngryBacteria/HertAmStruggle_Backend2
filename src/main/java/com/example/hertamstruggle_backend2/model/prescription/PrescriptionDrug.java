@@ -6,18 +6,17 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 
 @Entity
+@IdClass(DrugPrescriptionID.class)
 public class PrescriptionDrug {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "Drug_id")
-    @JsonBackReference
+    @JoinColumn(name = "drug_id", referencedColumnName = "id")
     private Drug drug;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "Drug_id")
-    @JsonBackReference
+    @JoinColumn(name = "prescription_id", referencedColumnName = "id")
     private Prescription prescription;
 
     private String prescriptionText;
@@ -29,9 +28,5 @@ public class PrescriptionDrug {
 
     public PrescriptionDrug() {
 
-    }
-
-    public String toJSON() {
-        return Admin.gson.toJson(this);
     }
 }
