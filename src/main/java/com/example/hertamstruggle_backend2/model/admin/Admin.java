@@ -7,19 +7,17 @@ import com.example.hertamstruggle_backend2.model.prescription.Prescription;
 import com.example.hertamstruggle_backend2.model.prescription.PrescriptionDrug;
 import com.google.gson.Gson;
 
+import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Admin {
 
-    /*
-    private Map<int, Doctor> doctors;
-    private Map<int, Patient> patients;
+    private Map<Integer, Doctor> doctors;
+    private Map<Integer, Patient> patients;
     private Map<Integer, Drug> drugs;
-    private Map<int, Prescription> prescriptions;
+    private Map<Integer, Prescription> prescriptions;
     public static Gson gson = CustomizedGson.getInstance();
 
     public Admin() {
@@ -30,15 +28,13 @@ public class Admin {
     }
 
     public static void main(String[] args) {
-
         Admin admin = new Admin();
 
-        admin.init();
-
-        System.out.println(admin.prescriptions.get(0L).toJSON());
+        System.out.println(admin.getPrescription(0).get().toJson());
 
     }
 
+    //Create methods
     public Prescription createPrescription(int numberOfSupplies, Doctor doctor, Patient patient, List<PrescriptionDrug> prescriptionDrugs, LocalDate prescriptionDate, LocalDate expirationDate) {
         Prescription prescription = new Prescription(numberOfSupplies, doctor, patient, prescriptionDrugs, prescriptionDate, expirationDate);
         this.addObjectToHashMap(prescription);
@@ -57,23 +53,16 @@ public class Admin {
         return doctor;
     }
 
-
-    private <T> void checkIfObjectExists(Map<int, T> hashMap, int id) {
-        if (hashMap.containsKey(id)) {
-            throw new RuntimeException("This id is already used.");
-        }
-    }
-
     public void usePrescription(Prescription prescription) {
 
-        if (prescription.getNumberOfSupplies() == 1) {
+        if (prescription.getNumberOfUses() == 1) {
             prescription.usePrescription();
             this.prescriptions.remove(prescription.getId());
             return;
         }
 
         if (prescription.getLastTimeUsed() != null) {
-            if (prescription.getLastTimeUsed().plusDays(prescription.getInterval().toDays()).isAfter(LocalDate.now())) {
+            if (prescription.getLastTimeUsed().plusDays(30).isAfter(LocalDate.now())) {
                 throw new IllegalStateException("This prescription cannot be used, last time it was used is too short ago");
             }
         }
@@ -86,9 +75,13 @@ public class Admin {
     }
 
 
-    //Todo maybe return optional?
-    public Prescription getPrescription(int id) {
-        return prescriptions.get(id);
+    //Query Methods
+    public Optional<Prescription> getPrescription(int id) {
+        return Optional.ofNullable(prescriptions.get(id));
+    }
+
+    public Optional<Drug> getDrug(int id) {
+        return Optional.ofNullable(drugs.get(id));
     }
 
     public void init() {
@@ -119,6 +112,7 @@ public class Admin {
         List<PrescriptionDrug> presDrugList1 = new ArrayList<PrescriptionDrug>();
         presDrugList1.add(presDrug1);
         presDrugList1.add(presDrug2);
+        presDrugList1.add(presDrug3);
 
         List<PrescriptionDrug> presDrugList2 = new ArrayList<PrescriptionDrug>();
         presDrugList2.add(presDrug1);
@@ -134,7 +128,7 @@ public class Admin {
 
     }
 
-
+    //Adding methods
     public <T> void addObjectToHashMap(T object) {
         if (object instanceof Doctor) {
             addDoctor((Doctor) object);
@@ -170,5 +164,9 @@ public class Admin {
         prescriptions.put(prescription.getId(), prescription);
     }
 
-     */
+    private <T> void checkIfObjectExists(Map<Integer, T> hashMap, int id) {
+        if (hashMap.containsKey(id)) {
+            throw new RuntimeException("This id is already used.");
+        }
+    }
 }

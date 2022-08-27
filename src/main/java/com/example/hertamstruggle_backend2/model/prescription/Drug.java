@@ -5,10 +5,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-@Entity
+
 public class Drug {
 
-    @Id
+    private static final AtomicInteger counter = new AtomicInteger();
+    
     private int id;
 
     private int approvalNumber;
@@ -21,15 +22,13 @@ public class Drug {
 
     private String Category;
 
-    @OneToMany(mappedBy = "drug")
-    private List<PrescriptionDrug> prescriptions;
-
     public Drug(int approvalNumber, String name, String permitHolder, String ATCCode, String category) {
         this.approvalNumber = approvalNumber;
         this.name = name;
         this.permitHolder = permitHolder;
         this.ATCCode = ATCCode;
         this.Category = category;
+        this.id = counter.getAndIncrement();
     }
 
     public Drug() {

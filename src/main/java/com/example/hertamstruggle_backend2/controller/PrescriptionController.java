@@ -1,44 +1,48 @@
 package com.example.hertamstruggle_backend2.controller;
 
-import com.example.hertamstruggle_backend2.model.admin.Admin;
+import com.example.hertamstruggle_backend2.HertAmStruggleBackend2Application;
 import com.example.hertamstruggle_backend2.model.prescription.Drug;
 import com.example.hertamstruggle_backend2.model.prescription.Prescription;
-import com.example.hertamstruggle_backend2.repositories.DrugRepository;
-import com.example.hertamstruggle_backend2.repositories.PrescriptionRepository;
 import io.swagger.v3.oas.annotations.Parameter;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/prescription")
 public class PrescriptionController {
 
-    @Autowired
-    private PrescriptionRepository prescriptionRepository;
-    @Autowired
-    private DrugRepository drugRepository;
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "prescription found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Drug.class))}),
+            @ApiResponse(responseCode = "404", description = "prescription not found",
+                    content = @Content)})
 
     @GetMapping(path = "{id}")
-    public Optional<Prescription> findById(@Parameter(description = "Id of prescription to get") @PathVariable Integer id) {
-        try {
-            return prescriptionRepository.findById(id);
+    public String prescription(@Parameter(description = "Id of prescription to get") @PathVariable Integer id) {
+
+        if (HertAmStruggleBackend2Application.admin.getPrescription(id).isPresent()){
+            return HertAmStruggleBackend2Application.admin.getPrescription(id).get().toJson();
         }
-        catch (NoSuchElementException e) {
+        else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Prescription could not be found");
         }
     }
 
-    @GetMapping("/drug")
-    public Optional<Drug> one() {
-        return drugRepository.findById(1);
+
+    @PostMapping(consumes = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void insert(@RequestBody Prescription newPrescription) {
+
+        System.out.println(newPrescription);
+
+
     }
+
 }

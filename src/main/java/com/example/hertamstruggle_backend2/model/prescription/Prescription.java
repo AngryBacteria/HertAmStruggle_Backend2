@@ -39,8 +39,6 @@ public class Prescription {
     private LocalDate prescriptionDate, expirationDate, lastUse;
     private String code;
 
-    //transient private Duration interval;
-
     public Prescription(int numbeOfUses, Doctor doctor, Patient patient, List<PrescriptionDrug> drugs, LocalDate prescriptionDate, LocalDate expirationDate) {
         this.numbeOfUses = numbeOfUses;
         this.doctor = doctor;
@@ -48,12 +46,7 @@ public class Prescription {
         this.drugs = drugs;
         this.prescriptionDate = prescriptionDate;
         this.expirationDate = expirationDate;
-        // this.interval = Duration.ofDays(30);
         this.code = generateCode();
-    }
-
-    public Prescription() {
-
     }
 
     private String generateCode() {
@@ -99,13 +92,6 @@ public class Prescription {
         return code;
     }
 
-    /*
-    public Duration getInterval() {
-        return interval;
-    }
-
-     */
-
     public LocalDate getLastTimeUsed() {
         return lastUse;
     }
@@ -121,7 +107,6 @@ public class Prescription {
         sb.append(", prescriptionDate=").append(prescriptionDate);
         sb.append(", expirationDate=").append(expirationDate);
         sb.append(", code='").append(code).append('\'');
-        // sb.append(", interval=").append(interval.toString());
         sb.append(", lastTimeUsed=").append(lastUse);
         sb.append('}');
         return sb.toString();

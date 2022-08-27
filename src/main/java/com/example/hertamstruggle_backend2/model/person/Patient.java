@@ -18,11 +18,13 @@ public class Patient {
     private String AHV;
 
 
+
     public Patient(String firstName, String lastName, LocalDate birthDate, String AHV) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.AHV = AHV;
+        this.id = counter.getAndIncrement();
     }
 
     public Patient() {

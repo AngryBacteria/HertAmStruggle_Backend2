@@ -20,9 +20,7 @@ public class Doctor {
         this.lastName = lastName;
         this.signature = signature;
         this.address = address;
-    }
-
-    public Doctor() {
+        this.id = counter.getAndIncrement();
     }
 
     public String getSignature() {
@@ -45,4 +43,16 @@ public class Doctor {
         return id;
     }
 
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Doctor{");
+        sb.append("id=").append(id);
+        sb.append(", signature='").append(signature).append('\'');
+        sb.append(", address='").append(address).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", counter=").append(counter);
+        sb.append('}');
+        return sb.toString();
+    }
 }
