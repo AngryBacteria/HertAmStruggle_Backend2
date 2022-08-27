@@ -10,6 +10,7 @@ public class Doctor {
     private long id;
 
     private String signature;
+
     private String address;
     protected String firstName;
     protected String lastName;
@@ -19,6 +20,9 @@ public class Doctor {
         this.lastName = lastName;
         this.signature = signature;
         this.address = address;
+    }
+
+    public Doctor() {
     }
 
     public String getSignature() {

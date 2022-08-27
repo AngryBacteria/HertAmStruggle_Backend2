@@ -1,6 +1,7 @@
 package com.example.hertamstruggle_backend2.model.prescription;
 
 import com.example.hertamstruggle_backend2.model.admin.Admin;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -12,6 +13,13 @@ public class PrescriptionDrug {
     @JoinColumn(name = "Drug_id")
     @JsonBackReference
     private Drug drug;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "Drug_id")
+    @JsonBackReference
+    private Prescription prescription;
+
     private String prescriptionText;
 
     public PrescriptionDrug(Drug drug, String prescriptionText) {
