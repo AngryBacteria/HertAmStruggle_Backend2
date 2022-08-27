@@ -25,12 +25,22 @@ public class DrugController {
                             schema = @Schema(implementation = Drug.class))}),
             @ApiResponse(responseCode = "404", description = "Drug not found",
                     content = @Content)})
-
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "id/{id}")
     public Drug drug(@Parameter(description = "Id of Drug to get") @PathVariable Integer id) {
 
         if (HertAmStruggleBackend2Application.admin.getDrug(id).isPresent()){
             return HertAmStruggleBackend2Application.admin.getDrug(id).get();
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Drug could not be found");
+        }
+    }
+
+    @GetMapping(path = "atc/{atc}")
+    public Drug drug(@Parameter(description = "ATC-Code of Drug to get") @PathVariable String atc) {
+
+        if (HertAmStruggleBackend2Application.admin.getDrugByATC(atc).isPresent()){
+            return HertAmStruggleBackend2Application.admin.getDrugByATC(atc).get();
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Drug could not be found");

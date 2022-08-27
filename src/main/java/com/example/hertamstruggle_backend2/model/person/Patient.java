@@ -54,4 +54,16 @@ public class Patient {
     public String toJson() {
         return Admin.gson.toJson(this);
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Patient{");
+        sb.append("id=").append(id);
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", lastName='").append(lastName).append('\'');
+        sb.append(", birthDate=").append(birthDate);
+        sb.append(", AHV='").append(AHV).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

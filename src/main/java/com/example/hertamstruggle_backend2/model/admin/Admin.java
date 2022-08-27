@@ -7,10 +7,8 @@ import com.example.hertamstruggle_backend2.model.prescription.Prescription;
 import com.example.hertamstruggle_backend2.model.prescription.PrescriptionDrug;
 import com.google.gson.Gson;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class Admin {
 
@@ -48,8 +46,8 @@ public class Admin {
         return patient;
     }
 
-    public Doctor createDoctor(String firstName, String lastName, String signature, String address) {
-        Doctor doctor = new Doctor(firstName, lastName, signature, address);
+    public Doctor createDoctor(String firstName, String lastName, String signature, String address, int zsr) {
+        Doctor doctor = new Doctor(firstName, lastName, signature, address, zsr);
         this.addObjectToHashMap(doctor);
         return doctor;
     }
@@ -86,21 +84,55 @@ public class Admin {
     }
 
     public Optional<Doctor> getDoctorByHin(String hinAddress){
-        //doctors.values().stream().forEach();
-        return null;
+
+        for (Doctor doctor : doctors.values()){
+            if (doctor.getHinEmailAddress().equals(hinAddress)){
+                return Optional.of(doctor);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Doctor> getDoctorByZsr(int zsr){
+
+        for (Doctor doctor : doctors.values()){
+            if (doctor.getZsrCode() == zsr){
+                return Optional.of(doctor);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Patient> getPatientByAHV(String AHV){
+
+        for (Patient patient : patients.values()){
+            if (patient.getAHV().equals(AHV)){
+                return Optional.of(patient);
+            }
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Drug> getDrugByATC(String ATC){
+        for (Drug drug : drugs.values()){
+            if (drug.getATCCode().equals(ATC)){
+                return Optional.of(drug);
+            }
+        }
+        return Optional.empty();
     }
 
     public void init() {
 
 
-        Doctor doctor1 = new Doctor("Hans", "Wurst", "Schanzenstrasse 5, 2500 Biel", "123456789");
-        Doctor doctor2 = new Doctor("Petra", "Sturzenegger", "Evergreenterrace 1, 6512 Springfield", "987654321");
+        Doctor doctor1 = new Doctor("Hans", "Wurst", "hans.wurst@hin.ch", "Schanzenstrasse 5, 2500 Biel", 125123);
+        Doctor doctor2 = new Doctor("Petra", "Sturzenegger", "petra.sturzenegger@hin.ch", "Evergreenterrace 1, 6512 Springfield", 387264);
 
         this.addObjectToHashMap(doctor1);
         this.addObjectToHashMap(doctor2);
 
         Patient patient1 = new Patient("Simon", "Walzer", LocalDate.now().minusYears(30), "756.5678.1234.58");
-        Patient patient2 = new Patient("Melina", "Kracher", LocalDate.now().minusYears(25), "756.5555.1111.58");
+        Patient patient2 = new Patient("Melina", "Kracher", LocalDate.now().minusYears(25), "756.5555.1111.5");
 
         this.addObjectToHashMap(patient1);
         this.addObjectToHashMap(patient2);
