@@ -92,6 +92,8 @@ public class PrescriptionController {
 
         HertAmStruggleBackend2Application.admin.createPrescription(numberOfUses,
                 doctor, patient, prescriptiondrugs, prescriptionDate, expirationDate);
+
+        System.out.println("Done");
     }
 
     @GetMapping(path = "/use/{id}")
